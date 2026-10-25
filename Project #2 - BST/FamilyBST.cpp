@@ -1,4 +1,3 @@
-#include "FamilyBST.h"
 /*
 	Name: Aaron Madrigal
 	Course: CMPR 131 - Fall 2026
@@ -15,7 +14,7 @@
 
 #include <iostream>
 #include <iomanip>
-#include "Playlist.h"
+#include "FamilyBST.h"
 #include "tools.h"
 
 using namespace std;
@@ -30,11 +29,6 @@ const int MAX_CAPACITY = 5;
 // Menu / Helper Functions
 
 void displayMenu()
-{
-
-}
-
-void add(Playlist & pArr)
 {
 
 }

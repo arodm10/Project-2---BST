@@ -12,12 +12,12 @@
 		None
 */
 
-#ifndef PLAYLIST_H
-#define PLAYLIST_H
+#ifndef FamilyBST_H
+#define FamilyBST_H
 
 #include <string>
 
-class Playlist
+class FamilyBST
 {
 private:
 
@@ -33,6 +33,5 @@ void displayMenu();
 
 // Menu Functions //
 
-void add(Playlist& pArr);
 
 #endif
