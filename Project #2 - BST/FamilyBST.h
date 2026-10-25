@@ -11,3 +11,28 @@
 	Resources/AI Tools Used:
 		None
 */
+
+#ifndef PLAYLIST_H
+#define PLAYLIST_H
+
+#include <string>
+
+class Playlist
+{
+private:
+
+public:
+
+};
+
+
+// Helper Functions // 
+
+void displayMenu();
+
+
+// Menu Functions //
+
+void add(Playlist& pArr);
+
+#endif
