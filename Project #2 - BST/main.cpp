@@ -2,7 +2,7 @@
 	Name: Aaron Madrigal
 	Course: CMPR 131 - Fall 2026
 	Date: October 24, 2026
-	Assignment: Group Project #2 - Team Sakura
+	Assignment: Group Project #2 - Team Sakura Labs
 
 	Collaboration:
 		Matthew Montoura
