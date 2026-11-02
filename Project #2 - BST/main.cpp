@@ -19,27 +19,31 @@ using namespace std;
 
 int main()
 {
-		int userInput = 0;
-		// FamilyBST familyBST;
+	int userInput = 0;
 
-		// Display Input Options
-		displayMenu();
+	// Display Input Options
+	displayMenu();
 
-		while (userInput != -1)
+	while (userInput != -1)
+	{
+		// Get Int Input
+		userInput = getBoundedInt("Enter number to perform an action: ", -1, 5);
+
+		// Perform action
+		switch (userInput)
 		{
-			// Get Int Input
-			userInput = getBoundedInt("Enter number to perform an action: ", -1, 5);
+		case 0: displayMenu();					break;
+		case 1: addMember();					break;
+		case 2: findMember();					break;
+		case 3: removeMember();					break;
+		case 4: updateMember();					break;
+		case 5: displayFamilyTree();			break;
+		case -1: cout << "Exiting program...";	break;
 
-			// Perform action
-			switch (userInput)
-			{
-			case 0: displayMenu();					break;
-			case -1: cout << "Exiting program...";	break;
-
-			default:
-				cout << "Invalid Input. Try again" << endl;	break;
-			}
+		default:
+			cout << "Invalid Input. Try again" << endl;	break;
 		}
+	}
 
 	return 0;
 }

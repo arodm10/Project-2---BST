@@ -15,28 +15,31 @@
 #ifndef FamilyBST_H
 #define FamilyBST_H
 
+#include <string>
+using namespace std;
+
 class Person
 {
 public:
-    std::string  name;
+    string  name;
     int     age;
     Person* Parent;
     Person* left;
     Person* right;
 
-    Person(std::string n, int a)
+    Person(string n, int a)
     {
-        name = n;
-        age = a;
-        Parent = nullptr;
-        left = nullptr;
-        right = nullptr;
+        name    = n;
+        age     = a;
+        Parent  = nullptr;
+        left    = nullptr;
+        right   = nullptr;
     }
 
     ~Person() { }
 
-    std::string  getName() const        { return name; }
-    void         setName(std::string n) { name = n; }
+    string       getName() const        { return name; }
+    void         setName(string n)      { name = n; }
     int          getAge() const         { return age; }
     void         setAge(int a)          { age = a; }
 };
@@ -46,7 +49,7 @@ class FamilyBST
 private:
     Person* root;
 
-    Person* findNode(Person* current, std::string targetName);
+    Person* findNode(Person* current, string targetName);
 
 public:
     FamilyBST()
@@ -57,18 +60,21 @@ public:
     ~FamilyBST();
 
     Person* getRoot() const { return root; }
-
-    bool add(std::string parentName, std::string childName, int childAge, bool isLeftChild);
+    bool    add(string parentName, string childName, int childAge, bool isLeftChild);
 };
 
 
 
 // Helper Functions // 
 
-void displayMenu();
 
 
 // Menu Functions //
-
+void displayMenu();
+void addMember();
+void findMember();
+void removeMember();
+void updateMember();
+void displayFamilyTree();
 
 #endif
