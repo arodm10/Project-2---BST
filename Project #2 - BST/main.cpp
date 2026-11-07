@@ -20,6 +20,7 @@ using namespace std;
 int main()
 {
 	int userInput = 0;
+	FamilyBST familyTree;
 
 	// Display Input Options
 	displayMenu();
@@ -33,7 +34,7 @@ int main()
 		switch (userInput)
 		{
 		case 0: displayMenu();					break;
-		case 1: addMember();					break;
+		case 1: addMember(familyTree);			break;
 		case 2: findMember();					break;
 		case 3: removeMember();					break;
 		case 4: updateMember();					break;

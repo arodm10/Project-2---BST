@@ -71,7 +71,7 @@ public:
 
 // Menu Functions //
 void displayMenu();
-void addMember();
+void addMember(FamilyBST& familyTree);
 void findMember();
 void removeMember();
 void updateMember();

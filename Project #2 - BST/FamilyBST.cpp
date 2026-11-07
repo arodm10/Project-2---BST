@@ -115,9 +115,25 @@ void displayMenu()
 	cout << "5. Display family tree" << endl;
 	cout << "6. Exit" << endl;
 }
-void addMember()
+void addMember(FamilyBST& familyTree)
 {
+    string childName = getLine("Enter family member's name: ");
+    int childAge = getBoundedInt("Enter age: ", 0, 120);
 
+    string parentName = getLine("Enter parent's name: ");
+
+    int position = getBoundedInt("Enter position (1 = Left, 2 = Right): ", 1, 2);
+
+    bool isLeftChild = (position == 1);
+
+    if (familyTree.add(parentName, childName, childAge, isLeftChild))
+    {
+        cout << "Family member added successfully!" << endl;
+    }
+    else
+    {
+        cout << "Failed to add family member." << endl;
+    }
 }
 void findMember()
 {
