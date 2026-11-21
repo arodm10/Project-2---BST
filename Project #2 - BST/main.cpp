@@ -19,8 +19,8 @@ using namespace std;
 
 int main()
 {
-	int userInput = 0;
 	FamilyBST familyTree;
+	int userInput = 0;
 
 	// Display Input Options
 	displayMenu();
@@ -36,9 +36,9 @@ int main()
 		case 0: displayMenu();					break;
 		case 1: addMember(familyTree);			break;
 		case 2: findMember(familyTree);			break;
-		case 3: removeMember();					break;
-		case 4: updateMember();					break;
-		case 5: displayFamilyTree(familyTree);			break;
+		case 3: removeMember(familyTree);		break;
+		case 4: updateMember(familyTree);		break;
+		case 5: displayFamilyTree(familyTree);	break;
 		case -1: cout << "Exiting program...";	break;
 
 		default:

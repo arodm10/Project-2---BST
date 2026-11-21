@@ -18,60 +18,62 @@
 #include <string>
 using namespace std;
 
-class FamilyBST
+class Person
 {
 public:
+    string  name;
+    int     age;
+    Person* Parent;
+    Person* left;
+    Person* right;
 
-    struct Person
+    Person(string n, int a)
     {
-        string  name;
-        int     age;
-        Person* Parent;
-        Person* left;
-        Person* right;
-        
-        // Constructor
-        Person(string n, int a)
-        : name(n), age(a), Parent(nullptr), left(nullptr), right(nullptr) {}
+        name    = n;
+        age     = a;
+        Parent  = nullptr;
+        left    = nullptr;
+        right   = nullptr;
+    }
 
-        // Destructor
-        ~Person() {}
+    ~Person() { }
 
-        // Getters and Setters
-        string       getName() const { return name; }
-        void         setName(string n) { name = n; }
-        int          getAge() const { return age; }
-        void         setAge(int a) { age = a; }
-    };
+    string       getName() const        { return name; }
+    void         setName(string n)      { name = n; }
+    int          getAge() const         { return age; }
+    void         setAge(int a)          { age = a; }
+};
 
+class FamilyBST
+{
 private:
-    // 
     Person* root;
+
     Person* findNode(Person* current, string targetName);
-    void    deleteTree(Person* current);
-    void    displayTreeHelper(Person* current, int depth) const;
+
+    //MY CODE: BRANDON
+    void displayNode(Person* current, int level);
+    void deleteSubtree(Person* current);
+    //END OF MY CODE: BRANDON
 
 public:
-	// Constructor
     FamilyBST()
     {
         root = nullptr;
     }
 
-	// Destructor
     ~FamilyBST();
 
-
-	// Getters
     Person* getRoot() const { return root; }
+    bool    add(string parentName, string childName, int childAge, bool isLeftChild);
 
-	// Add a new child to the family tree
-    bool add(string parentName, string childName, int childAge, bool isLeftChild);
-    bool find(string targetName);
-    void displayTree() const;
+    //MY CODE: BRANDON
+    Person* find(string targetName);
+    bool remove(string targetName);
+    bool update(string targetName, string newName, int newAge);
+    void display();
+    //END OF MY CODE: BRANDON
 };
-
-
 
 // Helper Functions // 
 
@@ -81,8 +83,8 @@ public:
 void displayMenu();
 void addMember(FamilyBST& familyTree);
 void findMember(FamilyBST& familyTree);
-void removeMember();
-void updateMember();
+void removeMember(FamilyBST& familyTree);
+void updateMember(FamilyBST& familyTree);
 void displayFamilyTree(FamilyBST& familyTree);
 
 #endif
