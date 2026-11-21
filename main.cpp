@@ -1,0 +1,50 @@
+/*
+	Name: Aaron Madrigal
+	Course: CMPR 131 - Fall 2026
+	Date: October 24, 2026
+	Assignment: Group Project #2 - Team Sakura Labs
+
+	Collaboration:
+		Matthew Montoura
+		Brandon Morgado De La Rosa
+
+	Resources/AI Tools Used:
+		None
+*/
+#include <iostream>
+#include "tools.h"
+#include "FamilyBST.h"
+
+using namespace std;
+
+int main()
+{
+	FamilyBST familyTree;
+	int userInput = 0;
+
+	// Display Input Options
+	displayMenu();
+
+	while (userInput != -1)
+	{
+		// Get Int Input
+		userInput = getBoundedInt("Enter number to perform an action: ", -1, 5);
+
+		// Perform action
+		switch (userInput)
+		{
+		case 0: displayMenu();					break;
+		case 1: addMember(familyTree);			break;
+		case 2: findMember(familyTree);			break;
+		case 3: removeMember(familyTree);		break;
+		case 4: updateMember(familyTree);		break;
+		case 5: displayFamilyTree(familyTree);	break;
+		case -1: cout << "Exiting program...";	break;
+
+		default:
+			cout << "Invalid Input. Try again" << endl;	break;
+		}
+	}
+
+	return 0;
+}
