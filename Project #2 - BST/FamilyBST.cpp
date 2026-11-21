@@ -25,47 +25,31 @@ using namespace std;
 // ============================================================
 
 
-FamilyBST::Person* FamilyBST::findNode(Person* current, string targetName)
+Person* FamilyBST::findNode(Person* current, string targetName)
 {
-    // Base case: if current is nullptr, return nullptr
-    if (current == nullptr)
-        return nullptr;
+	// Base case: if current is nullptr, return nullptr
+    if (current == nullptr) return nullptr;
 
+	// If the current node's name matches the target name, return the current node
+    if (current->name == targetName) return current;
 
-    // If the current node's name matches the target name, return the current node
-    if (targetName == current->name)
-        return current;
+	// Recursively search the left and right subtrees
+    Person* found = findNode(current->left, targetName);
+    if (found != nullptr) return found;
 
-
-    // Recursively search the left and right subtrees
-    // ?? Fix This ??
-    Person* found 
-        = findNode(current->left, targetName);
-
-    if (found != nullptr)
-        return found;
-
-
-    // If not found in the left subtree, search the right subtree
+	// If not found in the left subtree, search the right subtree
     return findNode(current->right, targetName);
 }
 
 FamilyBST::~FamilyBST()
 {
-    deleteTree(root);
+    //MY CODE: BRANDON
+    deleteSubtree(root);
+    root = nullptr;
+    //END OF MY CODE: BRANDON
+
 }
 
-void FamilyBST::deleteTree(Person* current)
-{   
-    // Base case
-    if (current == nullptr) 
-        return;
-
-    deleteTree(current->left);
-    deleteTree(current->right);
-
-    delete current;
-}
 
 bool FamilyBST::add(string parentName, string childName, int childAge, bool isLeftChild)
 {
@@ -89,9 +73,6 @@ bool FamilyBST::add(string parentName, string childName, int childAge, bool isLe
     // If it exists, add the child node to 
     // the left or right based on isLeftChild
 
-    // check this // if (findNode(root, childName) != nullptr) return false;
-
-
     Person* newChild = new Person(childName, childAge);
     newChild->Parent = parentNode;
 
@@ -111,48 +92,101 @@ bool FamilyBST::add(string parentName, string childName, int childAge, bool isLe
     return false;
 }
 
-bool FamilyBST::find(string targetName)
-{
-    return findNode(root, targetName) != nullptr;
+//MY CODE: BRANDON
+Person* FamilyBST::find(string targetName) {
+    return findNode(root, targetName);
 }
 
-// ============================================================
-// Helper Functions
-
-void FamilyBST::displayTreeHelper(Person* current, int depth) const
-{
-    if (current == nullptr)
-        return;
-
-    indent();
-
-    cout << string(depth * 4, ' ') << current->name
-        << " (Age: " << current->age << ")";
-
-    if (current->Parent != nullptr)
-        cout << " - Parent: " << current->Parent->name;
-
-    indent();
-
-    displayTreeHelper(current->left, depth + 1);
-    displayTreeHelper(current->right, depth + 1);
-}
-
-void FamilyBST::displayTree() const
-{
-    if (root == nullptr)
-    {
-        cout << "Family tree is empty." << endl;
-        indent();
-
+void FamilyBST::deleteSubtree(Person* current) {
+    if (current == nullptr) {
         return;
     }
 
-    displayTreeHelper(root, 0);
+    deleteSubtree(current->left);
+    deleteSubtree(current->right);
+
+    delete current;
 }
 
+
+bool FamilyBST::remove(string targetName) {
+    Person* member = findNode(root, targetName);
+
+    if (member == nullptr) {
+        return false;
+    }
+
+    Person* parent = member->Parent;
+
+    if (parent == nullptr) {
+        root = nullptr;
+    }
+    else if (parent->left == member) {
+        parent->left = nullptr;
+    }
+    else if (parent->right == member) {
+        parent->right = nullptr;
+    }
+
+    deleteSubtree(member);
+
+    return true;
+}
+
+
+bool FamilyBST::update(string targetName, string newName, int newAge) {
+    Person* member = findNode(root, targetName);
+
+    if (member == nullptr) {
+        return false;
+    }
+
+    // Prevent two members from having the same name
+    Person* existing = findNode(root, newName);
+
+    if (existing != nullptr && existing != member) {
+        return false;
+    }
+
+    member->setName(newName);
+    member->setAge(newAge);
+
+    return true;
+}
+
+
+void FamilyBST::displayNode(Person* current, int level) {
+    if (current == nullptr) {
+        return;
+    }
+
+    for (int i = 0; i < level; i++) {
+        cout << "    ";
+    }
+
+    cout << current->name
+        << " (Age: " << current->age << ")"
+        << endl;
+
+    displayNode(current->left, level + 1);
+    displayNode(current->right, level + 1);
+}
+
+
+void FamilyBST::display() {
+    if (root == nullptr) {
+        cout << "Family tree is empty" << endl;
+        return;
+    }
+
+    displayNode(root, 0);
+}
+
+//END OF MY CODE: BRANDON
+
+
 // ============================================================
-// Menu Functions
+// Menu / Helper Functions
 
 void displayMenu()
 {
@@ -169,87 +203,92 @@ void displayMenu()
     for (int count = 0; count <= 31; count++)
 		cout << "-";
 
-    indent(2);
+    indent();
 
     cout << "1. Add a Family Member" << endl;
 	cout << "2. Find Family Member" << endl;
 	cout << "3. Remove Family Member" << endl;
     cout << "4. Update Family Member" << endl;
 	cout << "5. Display family tree" << endl;
-	cout << "6. Exit" << endl;
-
-	indent();
+	cout << "-1. Exit" << endl;
 }
+
+//MY CODE: BRANDON
 void addMember(FamilyBST& familyTree)
 {
-	// Get user input for the new family member
-    string childName 
-        = getLine("Enter family member's name: ");
+    string childName = getLine("Enter family member's name: ");
+    int childAge = getBoundedInt("Enter age: ", 0, 120);
 
-    int childAge 
-        = getBoundedInt("Enter age: ", 0, 120);
-
-    string parentName 
-        = getLine("Enter parent's name: ");
-
-    int position 
-        = getBoundedInt("Enter position (1 = Left, 2 = Right): ", 1, 2);
-
-    indent();
-
-	// Determine if the new member is a left or right child
-    bool isLeftChild 
-        = (position == 1);
-
-
-	// Add the new family member to the tree
-    if (familyTree.add(parentName, childName, childAge, isLeftChild))
-    {
-        cout << "Family member added successfully!" << endl;
-        indent();
+    if (familyTree.getRoot() == nullptr) {
+        if (familyTree.add("", childName, childAge, true)) {
+            cout << "Family member added successfully!" << endl;
+        }
+        else {
+            cout << "Failed to add family member" << endl;
+        }
+        return;
     }
-    else
-    {
-        cout << "Failed to add family member." << endl;
-        indent();
-    }
+   string parentName = getLine("Enter parent's name: ");
+   int position = getBoundedInt("Enter position (1 = Left, 2 = Right): ", 1, 2);
+   bool isLeftChild = (position == 1);
+
+   if (familyTree.add(parentName, childName, childAge, isLeftChild)) {
+       cout << "Family member added successfully!" << endl;
+   }
+   else {
+       cout << "Failed to add family member" << endl;
+   }
 }
-
 void findMember(FamilyBST& familyTree)
 {
-	// Get user input for the family member to find
-	string targetName 
-        = getLine("Enter family member's name to find: ");
+    string name = getLine("Enter family member's name you want to find: ");
+    Person* member = familyTree.find(name);
 
-    indent();
+    if (member != nullptr) {
+        cout << "Family member found!" << endl;
+        cout << "Name: " << member->getName() << endl;
+        cout << "Age: " << member->getAge() << endl;
 
-	// Search for the family member in the tree
-    if (familyTree.find(targetName))
-    {
-        cout << "Found " << targetName << endl;
-        indent();
+        if (member->Parent != nullptr) {
+            cout << "Parent: " << member->Parent->getName() << endl;
+        }
+        else {
+            cout << "Parent: None (Root)" << endl;
+        }
     }
-
-    else
-    {
-        cout << "Family member " << targetName << " does not exist" << endl;
-        indent();
+    else {
+        cout << "Family member not found" << endl;
     }
-
 }
-
-void removeMember()
+void removeMember(FamilyBST& familyTree)
 {
-	// Get user input for the family member to remove
-}
+    string childName = getLine("Enter family member's name you want to delete/remove: ");
 
-void updateMember()
+    if (familyTree.remove(childName)) {
+        cout << "Family member removed successfully!" << endl;
+    }
+    else {
+        cout << "Failed to remove family member." << endl;
+    }
+}
+void updateMember(FamilyBST& familyTree)
 {
-	// Get user input for the family member to update
-}
+    string oldName = getLine("Enter family member's name to update: ");
+    string newName = getLine("Enter new name: ");
+    int newAge = getBoundedInt("Enter new age: ", 0, 120);
 
+    if (familyTree.update(oldName, newName, newAge)) {
+        cout << "Family member updated successfully!" << endl;
+    }
+    else {
+        cout << "Failed to update family member" << endl;
+    }
+}
 void displayFamilyTree(FamilyBST& familyTree)
 {
-	// Display the family tree in a structured format
-    familyTree.displayTree();
+    cout << "\n======== FAMILY TREE ========" << endl;
+    familyTree.display();
+
+    cout << "==============================" << endl;
 }
+//END OF MY CODE: BRANDON
